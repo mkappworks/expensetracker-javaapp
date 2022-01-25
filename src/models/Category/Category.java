@@ -1,4 +1,4 @@
-package models;
+package models.Category;
 
 public class Category {
 
