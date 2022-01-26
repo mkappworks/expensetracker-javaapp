@@ -1,4 +1,4 @@
-package views.Category;
+package views;
 
 import java.awt.*;
 
