@@ -1,4 +1,6 @@
 
+import repo.Category.CategoryRepoGet;
+import repo.Category.CategoryRepoManager;
 import service.FileDataGet;
 import views.CategoryGUI;
 
@@ -6,8 +8,8 @@ public class App {
     public static void main(String[] args) throws Exception {
         // CategoryGUI categoryGUI = new CategoryGUI();
         // categoryGUI.initialise();
-        service.FileManager fileget = new FileDataGet();
-        fileget.fileOperation("transaction.txt");
-        System.out.println(fileget.getFileRecordArray());
+        CategoryRepoManager categoryRepoGet = new CategoryRepoGet();
+        categoryRepoGet.query();
+        System.out.println(categoryRepoGet.getCategoryList());
     }
 }
