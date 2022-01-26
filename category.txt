@@ -1,0 +1,4 @@
+01 food 100
+02 rent 1500
+03 transport 500
+04 salary 2000
