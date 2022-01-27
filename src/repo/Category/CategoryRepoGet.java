@@ -25,6 +25,7 @@ public class CategoryRepoGet extends CategoryRepoManager {
         }
 
         setCategoryList(new CategoryList(categoryArray));
+
     }
 
 }
