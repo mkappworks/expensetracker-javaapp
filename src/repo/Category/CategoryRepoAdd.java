@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import models.Category.Category;
 import models.Category.CategoryList;
 import service.FileDataAdd;
+import service.FileManager;
 
 public class CategoryRepoAdd extends CategoryRepoManager {
 
@@ -27,7 +28,7 @@ public class CategoryRepoAdd extends CategoryRepoManager {
       aList.add(stringArray);
     }
 
-    service.FileManager fileAdd = new FileDataAdd();
+    FileManager fileAdd = new FileDataAdd();
     fileAdd.setFileRecordArray(aList);
     fileAdd.fileOperation("category.txt");
   }
