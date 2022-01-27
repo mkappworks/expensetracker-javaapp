@@ -4,8 +4,14 @@ import java.awt.*;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+
+import models.Category.Category;
+import repo.Category.CategoryRepoGet;
+import repo.Category.CategoryRepoManager;
 
 public class CategoryGUI extends JFrame {
 
@@ -44,12 +50,23 @@ public class CategoryGUI extends JFrame {
         formPanel.add(tfLastName);
 
         /**************** Table Panel ****************/
-        String[][] data = {
-                { "Kundan Kumar Jha", "4031", "CSE" },
-                { "Anand Jha", "6014", "IT" }
-        };
+        CategoryRepoManager categoryRepoGet = new CategoryRepoGet();
+        categoryRepoGet.query();
+        ArrayList<Category> categoryArray = categoryRepoGet.getCategoryList().getList();
+
         String[] columnNames = { "id", "title", "budget" };
-        tableCategory = new JTable(data, columnNames);
+        DefaultTableModel model = new DefaultTableModel(columnNames, 0);
+        ArrayList<String> list = new ArrayList<String>();
+
+        for (Category categoryRecord : categoryArray) {
+            list.add(Integer.toString(categoryRecord.getId()));
+            list.add(categoryRecord.getTitle());
+            list.add(Double.toString(categoryRecord.getBudget()));
+            model.addRow(list.toArray());
+        }
+
+        JTable tableCategory = new JTable(model);
+        tableCategory.setModel(model);
         tableCategory.setBounds(30, 40, 200, 300);
         JScrollPane tablePanel = new JScrollPane(tableCategory);
 
