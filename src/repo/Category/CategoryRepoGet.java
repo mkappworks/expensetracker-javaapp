@@ -4,12 +4,13 @@ import java.util.ArrayList;
 import models.Category.Category;
 import models.Category.CategoryList;
 import service.FileDataGet;
+import service.FileManager;
 
 public class CategoryRepoGet extends CategoryRepoManager {
 
     @Override
     public void query() {
-        service.FileManager fileGet = new FileDataGet();
+        FileManager fileGet = new FileDataGet();
         fileGet.fileOperation("category.txt");
         ArrayList<ArrayList<String>> fileRecordArray = fileGet.getFileRecordArray();
         ArrayList<Category> categoryArray = new ArrayList<Category>();
