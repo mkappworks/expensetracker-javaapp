@@ -1,9 +1,7 @@
 package repo.Transaction;
 
 import models.Transaction.Transaction;
-import models.Transaction.TransactionList;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import service.FileDataAdd;
 import service.FileManager;
 
@@ -11,41 +9,39 @@ import java.util.ArrayList;
 
 public class TransactionRepoAdd extends TransactionRepoManager {
 
-  public void query(Transaction transaction) {
-    SimpleDateFormat DateFor = new SimpleDateFormat("dd/MM/yyyy");
+  public void query() {
+    ArrayList<ArrayList<String>> fileRecordArray = new ArrayList<ArrayList<String>>();
+    ArrayList<Transaction> transactionArray = this.getTransactionList().getList();
 
-    // get transaction list
+    for (Transaction transaction : transactionArray) {
+      ArrayList<String> stringArray = new ArrayList<String>();
 
-    ArrayList<ArrayList<String>> aList = new ArrayList<ArrayList<String>>();
+      String id = Integer.toString(transaction.getId());
+      String startingDate = new SimpleDateFormat("dd/MM/yyyy").format(transaction.getStartDate());
+      String categoryid = Integer.toString(transaction.getCategory().getId());
+      String categorytitle = transaction.getCategory().getTitle();
+      String categorybudget = Double.toString(transaction.getCategory().getBudget());
+      String note = transaction.getNote();
+      String recurringType = transaction.getRecurringType();
+      String additionalRecurringAmount = Integer.toString(transaction.getAdditionalRecurringAmount());
+      String amount = Double.toString(transaction.getAmount());
 
-    ArrayList<String> stringArray = new ArrayList<String>();
-    String id = Integer.toString(transaction.getId());
+      stringArray.add(id);
+      stringArray.add(startingDate);
+      stringArray.add(categoryid);
+      stringArray.add(categorytitle);
+      stringArray.add(categorybudget);
+      stringArray.add(note);
+      stringArray.add(recurringType);
+      stringArray.add(additionalRecurringAmount);
+      stringArray.add(amount);
 
-    Date date = transaction.getStartDate();
-    String startingDate = DateFor.format(date);
-
-    String note = transaction.getNote();
-    String recurringType = transaction.getRecurringType();
-    String additionalRecurringAmount = Integer.toString(transaction.getAdditionalRecurringAmount());
-    String amount = Double.toString(transaction.getAmount());
-
-    stringArray.add(id);
-    stringArray.add(startingDate);
-    stringArray.add(note);
-    stringArray.add(recurringType);
-    stringArray.add(additionalRecurringAmount);
-    stringArray.add(amount);
-
-    aList.add(stringArray);
+      fileRecordArray.add(stringArray);
+    }
 
     FileManager fileAdd = new FileDataAdd();
-    fileAdd.setFileRecordArray(aList);
-    fileAdd.fileOperation("category.txt");
+    fileAdd.setFileRecordArray(fileRecordArray);
+    fileAdd.fileOperation("transaction.txt");
   }
 
-  @Override
-  public void query() {
-    throw new UnsupportedOperationException();
-
-  }
 }
