@@ -3,7 +3,7 @@ package repo.Transaction;
 import models.Transaction.Transaction;
 import models.Transaction.TransactionList;
 
-public class TransactionReoEdit extends TransactionRepoManager {
+public class TransactionRepoEdit extends TransactionRepoManager {
   public void query(Transaction transaction) {
 
   }
