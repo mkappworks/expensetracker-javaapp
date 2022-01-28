@@ -11,38 +11,41 @@ import java.util.ArrayList;
 
 public class TransactionRepoAdd extends TransactionRepoManager {
 
-  @Override
-  public void query() {
+  public void query(Transaction transaction) {
     SimpleDateFormat DateFor = new SimpleDateFormat("dd/MM/yyyy");
 
     // get transaction list
-    TransactionList transactionListObj = this.getTransactionList();
-    ArrayList<Transaction> transactionArray = transactionListObj.getList();
+
     ArrayList<ArrayList<String>> aList = new ArrayList<ArrayList<String>>();
 
-    for (Transaction transactionObj : transactionArray) {
-      ArrayList<String> stringArray = new ArrayList<String>();
-      String id = Integer.toString(transactionObj.getId());
+    ArrayList<String> stringArray = new ArrayList<String>();
+    String id = Integer.toString(transaction.getId());
 
-      Date date = transactionObj.getStartDate();
-      String startingDate = DateFor.format(date);
+    Date date = transaction.getStartDate();
+    String startingDate = DateFor.format(date);
 
-      String note = transactionObj.getNote();
-      String recurringType = transactionObj.getRecurringType();
-      String additionalRecurringAmount = Integer.toString(transactionObj.getAdditionalRecurringAmount());
-      String amount = Double.toString(transactionObj.getAmount());
+    String note = transaction.getNote();
+    String recurringType = transaction.getRecurringType();
+    String additionalRecurringAmount = Integer.toString(transaction.getAdditionalRecurringAmount());
+    String amount = Double.toString(transaction.getAmount());
 
-      stringArray.add(id);
-      stringArray.add(startingDate);
-      stringArray.add(note);
-      stringArray.add(recurringType);
-      stringArray.add(additionalRecurringAmount);
-      stringArray.add(amount);
+    stringArray.add(id);
+    stringArray.add(startingDate);
+    stringArray.add(note);
+    stringArray.add(recurringType);
+    stringArray.add(additionalRecurringAmount);
+    stringArray.add(amount);
 
-      aList.add(stringArray);
-    }
+    aList.add(stringArray);
+
     FileManager fileAdd = new FileDataAdd();
     fileAdd.setFileRecordArray(aList);
     fileAdd.fileOperation("category.txt");
+  }
+
+  @Override
+  public void query() {
+    throw new UnsupportedOperationException();
+
   }
 }

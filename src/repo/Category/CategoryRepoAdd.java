@@ -8,28 +8,28 @@ import service.FileManager;
 
 public class CategoryRepoAdd extends CategoryRepoManager {
 
-  @Override
-  public void query() {
-
-    // get category list
-    CategoryList clObj = this.getCategoryList();
-    ArrayList<Category> categoryArray = clObj.getList();
+  public void query(Category category) {
 
     ArrayList<ArrayList<String>> aList = new ArrayList<ArrayList<String>>();
-    for (Category categoryObj : categoryArray) {
-      ArrayList<String> stringArray = new ArrayList<String>();
-      String id = Integer.toString(categoryObj.getId());
-      String title = categoryObj.getTitle();
-      String budget = Double.toString(categoryObj.getBudget());
-      stringArray.add(id);
-      stringArray.add(title);
-      stringArray.add(budget);
 
-      aList.add(stringArray);
-    }
+    ArrayList<String> stringArray = new ArrayList<String>();
+    String id = Integer.toString(category.getId());
+    String title = category.getTitle();
+    String budget = Double.toString(category.getBudget());
+    stringArray.add(id);
+    stringArray.add(title);
+    stringArray.add(budget);
+
+    aList.add(stringArray);
 
     FileManager fileAdd = new FileDataAdd();
     fileAdd.setFileRecordArray(aList);
     fileAdd.fileOperation("category.txt");
+  }
+
+  @Override
+  public void query() {
+    throw new UnsupportedOperationException();
+
   }
 }
