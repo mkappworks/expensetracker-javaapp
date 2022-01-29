@@ -1,6 +1,6 @@
 package models.Transaction;
 
-import java.util.Locale.Category;
+import models.Category.Category;
 
 public class TransactionData {
 
