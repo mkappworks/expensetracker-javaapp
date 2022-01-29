@@ -88,7 +88,7 @@ public class CategoryView extends JFrame {
 
             @Override
             public void mouseClicked(MouseEvent e) {
-                System.out.println("mouseClicked " + e.get);
+             //   System.out.println("mouseClicked " );
             }
 
             @Override
