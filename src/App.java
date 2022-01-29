@@ -10,7 +10,7 @@ public class App {
         // CategoryGUI categoryGUI = new CategoryGUI();
         // categoryGUI.initialise();
 
-        FileManager fileDelete = new FileDataAmend();
+        FileManager fileAmend = new FileDataAmend();
         ArrayList<ArrayList<String>> aList = new ArrayList<ArrayList<String>>(1);
         ArrayList<String> al = new ArrayList<String>();
         al.add("02");
@@ -20,10 +20,11 @@ public class App {
         aList.add(al);
 
         // fileDelete.setFileRecordArray(aList);
-        fileDelete.fileOperation("test.txt");
+        fileAmend.setFileRecordArray(aList);
+        fileAmend.fileOperation("test.txt");
 
-        FileManager fileAdd = new FileDataAdd();
-        fileAdd.setFileRecordArray(aList);
-        fileAdd.fileOperation("test.txt");
+        // FileManager fileAdd = new FileDataAdd();
+        // fileAdd.setFileRecordArray(aList);
+        // fileAdd.fileOperation("test.txt");
     }
 }

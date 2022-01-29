@@ -9,10 +9,10 @@ import java.util.Scanner;
 public class FileDataGet extends FileManager {
 
     @Override
-    public void fileOperation(String filepath) {
+    public void fileOperation(String filePath) {
         try {
 
-            File myObj = new File(filepath);
+            File myObj = new File(filePath);
             Scanner myReader = new Scanner(myObj);
             ArrayList<ArrayList<String>> fileRecordArray = new ArrayList<ArrayList<String>>();
             while (myReader.hasNextLine()) {
