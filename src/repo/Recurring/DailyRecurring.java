@@ -22,10 +22,9 @@ public class DailyRecurring implements TransactionRecurringManager {
             Date startingDate = transaction.getStartDate();
             Category category = transaction.getCategory();
             String note = transaction.getNote();
-            String transactionType = transaction.getTransactionType();
             int additionalRecurringAmount = transaction.getAdditionalRecurringAmount();
             double amount = transaction.getAmount();
-            TransactionData transactionData = new TransactionData(category, transactionType, note, amount);
+            TransactionData transactionData = new TransactionData(category, note, amount);
 
             for (int i = 0; i <= additionalRecurringAmount; i++) {
                 Date date = startingDate;

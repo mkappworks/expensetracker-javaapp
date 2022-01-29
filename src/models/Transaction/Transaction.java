@@ -10,18 +10,16 @@ public class Transaction {
     private Date startDate;
     private Category category;
     private String note;
-    private String transactionType;
     private String recurringType;
     private int additionalRecurringAmount;
     private double amount;
 
-    public Transaction(int id, Date startDate, Category category, String note, String transactionType,
+    public Transaction(int id, Date startDate, Category category, String note,
             String recurringType, int additionalRecurringAmount, double amount) {
         this.id = id;
         this.startDate = startDate;
         this.category = category;
         this.note = note;
-        this.transactionType = transactionType;
         this.recurringType = recurringType;
         this.additionalRecurringAmount = additionalRecurringAmount;
         this.amount = amount;
@@ -57,14 +55,6 @@ public class Transaction {
 
     public void setNote(String note) {
         this.note = note;
-    }
-
-    public String getTransactionType() {
-        return transactionType;
-    }
-
-    public void setTransactionType(String transactionType) {
-        this.transactionType = transactionType;
     }
 
     public String getRecurringType() {

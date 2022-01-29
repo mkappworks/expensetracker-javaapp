@@ -21,7 +21,7 @@ public class TransactionRepoAdd extends TransactionRepoManager {
       String categoryid = Integer.toString(transaction.getCategory().getId());
       String categorytitle = transaction.getCategory().getTitle();
       String categorybudget = Double.toString(transaction.getCategory().getBudget());
-      String transactionType = transaction.getTransactionType();
+      String categoryTransactionType = transaction.getCategory().getTransactionType();
       String note = transaction.getNote();
       String recurringType = transaction.getRecurringType();
       String additionalRecurringAmount = Integer.toString(transaction.getAdditionalRecurringAmount());
@@ -32,7 +32,7 @@ public class TransactionRepoAdd extends TransactionRepoManager {
       stringArray.add(categoryid);
       stringArray.add(categorytitle);
       stringArray.add(categorybudget);
-      stringArray.add(transactionType);
+      stringArray.add(categoryTransactionType);
       stringArray.add(note);
       stringArray.add(recurringType);
       stringArray.add(additionalRecurringAmount);

@@ -21,10 +21,9 @@ public class NoRecurring implements TransactionRecurringManager {
             Date startingDate = transaction.getStartDate();
             Category category = transaction.getCategory();
             String note = transaction.getNote();
-            String transactionType = transaction.getTransactionType();
             double amount = transaction.getAmount();
 
-            TransactionData transactionData = new TransactionData(category, transactionType, note, amount);
+            TransactionData transactionData = new TransactionData(category, note, amount);
             TransactionEntry transactionEntry = new TransactionEntry(startingDate, transactionData);
 
             transactionEntryArrayList.add(transactionEntry);

@@ -17,10 +17,12 @@ public class CategoryRepoAdd extends CategoryRepoManager {
       String id = Integer.toString(category.getId());
       String title = category.getTitle();
       String budget = Double.toString(category.getBudget());
+      String transactionType = category.getTransactionType();
 
       stringArray.add(id);
       stringArray.add(title);
       stringArray.add(budget);
+      stringArray.add(transactionType);
 
       fileRecordArray.add(stringArray);
     }

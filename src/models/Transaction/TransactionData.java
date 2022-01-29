@@ -5,13 +5,11 @@ import models.Category.Category;
 public class TransactionData {
 
     private Category category;
-    private String transactionType;
     private String note;
     private double amount;
 
-    public TransactionData(Category category, String transactionType, String note, double amount) {
+    public TransactionData(Category category, String note, double amount) {
         this.category = category;
-        this.transactionType = transactionType;
         this.note = note;
         this.amount = amount;
     }
@@ -22,14 +20,6 @@ public class TransactionData {
 
     public void setCategory(Category category) {
         this.category = category;
-    }
-
-    public String getTransactionType() {
-        return transactionType;
-    }
-
-    public void setTransactionType(String transactionType) {
-        this.transactionType = transactionType;
     }
 
     public String getNote() {
@@ -47,4 +37,5 @@ public class TransactionData {
     public void setAmount(double amount) {
         this.amount = amount;
     }
+
 }

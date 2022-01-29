@@ -19,8 +19,9 @@ public class CategoryRepoGet extends CategoryRepoManager {
             int id = Integer.parseInt(record.get(0));
             String title = record.get(1);
             double amount = Double.parseDouble(record.get(2));
+            String transactionType = record.get(3);
 
-            Category category = new Category(id, title, amount);
+            Category category = new Category(id, title, amount, transactionType);
             categoryArray.add(category);
 
         }
