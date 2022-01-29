@@ -12,14 +12,16 @@ public class FileDataAdd extends FileManager {
       FileWriter fw = new FileWriter(filePath, true); // the true will append the new data
 
       for (ArrayList<String> innerList : fileRecordArray) {
-        for (String str : innerList) {
-          fw.write(str);
-          fw.write("\t");
-        }
+        String record = String.join(" ", innerList);
+        fw.write(record);
         fw.write("\n");
+
       }
+
       fw.close();
-    } catch (IOException ioe) {
+    } catch (
+
+    IOException ioe) {
       System.err.println("IOException: " + ioe.getMessage());
     }
   }
