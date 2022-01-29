@@ -32,12 +32,13 @@ public class TransactionRepoGet extends TransactionRepoManager {
             String categorytitle = record.get(3);
             double categorybudget = Double.parseDouble(record.get(4));
             String note = record.get(5);
-            String recurringType = record.get(6);
-            int additionalRecurringAmount = Integer.parseInt(record.get(7));
-            double amount = Double.parseDouble(record.get(8));
+            String transactionType = record.get(6);
+            String recurringType = record.get(7);
+            int additionalRecurringAmount = Integer.parseInt(record.get(8));
+            double amount = Double.parseDouble(record.get(9));
 
             Category category = new Category(categoryid, categorytitle, categorybudget);
-            Transaction transaction = new Transaction(id, startDate, category, note, recurringType,
+            Transaction transaction = new Transaction(id, startDate, category, note, transactionType, recurringType,
                     additionalRecurringAmount, amount);
 
             transactionArray.add(transaction);
