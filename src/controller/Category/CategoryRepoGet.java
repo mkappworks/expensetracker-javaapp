@@ -1,4 +1,4 @@
-package repo.Category;
+package controller.Category;
 
 import java.util.ArrayList;
 import models.Category.Category;
