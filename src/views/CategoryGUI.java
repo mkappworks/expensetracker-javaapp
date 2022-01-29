@@ -9,9 +9,9 @@ import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
+import controller.Category.CategoryRepoGet;
+import controller.Category.CategoryRepoManager;
 import models.Category.Category;
-import repo.Category.CategoryRepoGet;
-import repo.Category.CategoryRepoManager;
 
 public class CategoryGUI extends JFrame {
 
