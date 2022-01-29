@@ -1,8 +1,24 @@
+import service.FileManager;
+import java.util.ArrayList;
+
+import service.FileDataDelete;
 import views.CategoryGUI;
 
 public class App {
     public static void main(String[] args) throws Exception {
         CategoryGUI categoryGUI = new CategoryGUI();
         categoryGUI.initialise();
+
+        FileManager fileDelete = new FileDataDelete();
+        ArrayList<ArrayList<String>> aList = new ArrayList<ArrayList<String>>(1);
+        ArrayList<String> al = new ArrayList<String>();
+        al.add("02");
+        al.add("rent");
+        al.add("1500");
+
+        aList.add(al);
+
+        fileDelete.setFileRecordArray(aList);
+        fileDelete.fileOperation("test.txt");
     }
 }

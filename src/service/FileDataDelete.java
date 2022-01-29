@@ -3,7 +3,7 @@ package service;
 import java.io.*;
 import java.util.ArrayList;
 
-public class FileDelete extends FileManager {
+public class FileDataDelete extends FileManager {
 
   @Override
   public void fileOperation(String filepath) {
@@ -22,9 +22,10 @@ public class FileDelete extends FileManager {
       String line = "", oldtext = "";
       while ((line = reader.readLine()) != null) {
         oldtext += line + "\r\n";
+        System.out.println(reader.readLine());
       }
       reader.close();
-
+      System.out.println(toDeleteLine);
       // To replace a line in a file
       String newtext = oldtext.replaceAll(toDeleteLine, "");
 
@@ -35,5 +36,4 @@ public class FileDelete extends FileManager {
       ioe.printStackTrace();
     }
   }
-
 }
