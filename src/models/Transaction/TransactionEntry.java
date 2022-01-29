@@ -4,22 +4,12 @@ import java.util.Date;
 
 public class TransactionEntry {
 
-    private int id;
     private Date date;
     private TransactionData transactionData;
 
-    public TransactionEntry(int id, Date date, TransactionData transactionData) {
-        this.id = id;
+    public TransactionEntry(Date date, TransactionData transactionData) {
         this.date = date;
         this.transactionData = transactionData;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public Date getDate() {
