@@ -1,15 +1,16 @@
 import service.FileManager;
 import java.util.ArrayList;
 
-import service.FileDataDelete;
+import service.FileDataAdd;
+import service.FileDataAmend;
 import views.CategoryGUI;
 
 public class App {
     public static void main(String[] args) throws Exception {
-        CategoryGUI categoryGUI = new CategoryGUI();
-        categoryGUI.initialise();
+        // CategoryGUI categoryGUI = new CategoryGUI();
+        // categoryGUI.initialise();
 
-        FileManager fileDelete = new FileDataDelete();
+        FileManager fileDelete = new FileDataAmend();
         ArrayList<ArrayList<String>> aList = new ArrayList<ArrayList<String>>(1);
         ArrayList<String> al = new ArrayList<String>();
         al.add("02");
@@ -18,7 +19,11 @@ public class App {
 
         aList.add(al);
 
-        fileDelete.setFileRecordArray(aList);
+        // fileDelete.setFileRecordArray(aList);
         fileDelete.fileOperation("test.txt");
+
+        FileManager fileAdd = new FileDataAdd();
+        fileAdd.setFileRecordArray(aList);
+        fileAdd.fileOperation("test.txt");
     }
 }
