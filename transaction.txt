@@ -1,0 +1,3 @@
+01 01/01/2022 01 food 100 expense lunch monthly 2 10
+02 01/01/2022 01 food 100 expense dinner daily 2 10
+03 01/01/2022 01 food 100 expense breakfast norecurring 0 10
