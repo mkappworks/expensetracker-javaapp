@@ -91,11 +91,11 @@ public class MainView extends JFrame {
     }
 
     private void jButtonTrackerViewActionPerformed(java.awt.event.ActionEvent evt) {
-
+        TrackerView.main();
     }
 
     private void jButtonTransactionViewActionPerformed(java.awt.event.ActionEvent evt) {
-
+        this.dispose();
     }
 
     private void jButtonCategoryViewActionPerformed(java.awt.event.ActionEvent evt) {
