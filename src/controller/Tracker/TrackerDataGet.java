@@ -11,8 +11,8 @@ import controller.Recurring.TransactionRecurringManager;
 import controller.Transaction.TransactionRepoGet;
 import controller.Transaction.TransactionRepoManager;
 import models.Category.Category;
-import models.Tracker.CategoryTrackerData;
-import models.Tracker.CategoryTrackerDataList;
+import models.Tracker.TrackerData;
+import models.Tracker.TrackerDataList;
 import models.Transaction.Transaction;
 import models.Transaction.TransactionEntry;
 import models.Transaction.TransactionEntryList;
@@ -20,7 +20,7 @@ import models.Transaction.TransactionList;
 
 public class TrackerDataGet extends TrackerDataManager {
 
-    private CategoryTrackerDataList ctdList;
+    private TrackerDataList trackerDataList;
 
     public void convertToCtdList() {
 
@@ -62,7 +62,7 @@ public class TrackerDataGet extends TrackerDataManager {
         TransactionEntryList combinedTransactionEntryList = new TransactionEntryList(combinedTransactionEntry);
 
         /* Category */
-        ArrayList<CategoryTrackerData> categoryTrackerDatas = new ArrayList<CategoryTrackerData>();
+        ArrayList<TrackerData> categoryTrackerDatas = new ArrayList<TrackerData>();
 
         CategoryRepoManager categoryRepoGet = new CategoryRepoGet();
         categoryRepoGet.query();
@@ -77,21 +77,21 @@ public class TrackerDataGet extends TrackerDataManager {
                 }
             }
 
-            CategoryTrackerData categoryTrackerData = new CategoryTrackerData(category,
+            TrackerData categoryTrackerData = new TrackerData(category,
                     amount);
 
             categoryTrackerDatas.add(categoryTrackerData);
         }
 
-        this.setCtdList(new CategoryTrackerDataList(categoryTrackerDatas));
+        this.setCtdList(new TrackerDataList(categoryTrackerDatas));
 
     }
 
-    public CategoryTrackerDataList getCtdList() {
-        return ctdList;
+    public TrackerDataList getCtdList() {
+        return trackerDataList;
     }
 
-    public void setCtdList(CategoryTrackerDataList ctdList) {
-        this.ctdList = ctdList;
+    public void setCtdList(TrackerDataList ctdList) {
+        this.trackerDataList = ctdList;
     }
 }

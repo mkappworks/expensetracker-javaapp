@@ -1,18 +1,18 @@
 package controller.Tracker;
 
-import models.Tracker.CategoryTrackerDataList;
+import models.Tracker.TrackerDataList;
 
 public abstract class TrackerDataManager {
 
-    private CategoryTrackerDataList ctdList;
+    private TrackerDataList ctdList;
 
     public abstract void convertToCtdList();
 
-    public CategoryTrackerDataList getCtdList() {
+    public TrackerDataList getCtdList() {
         return ctdList;
     }
 
-    public void setCtdList(CategoryTrackerDataList ctdList) {
+    public void setCtdList(TrackerDataList ctdList) {
         this.ctdList = ctdList;
     }
 }
