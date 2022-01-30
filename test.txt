@@ -1,2 +1,0 @@
-01 food 100
-03 transport 500
