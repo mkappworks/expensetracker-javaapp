@@ -1,4 +1,4 @@
-package views;
+package views.Tracker;
 
 import java.util.ArrayList;
 
@@ -11,6 +11,7 @@ import javax.swing.table.DefaultTableModel;
 import controller.Tracker.TrackerDataGet;
 import controller.Tracker.TrackerDataManager;
 import models.Tracker.TrackerData;
+import views.MainView;
 
 public class TrackerView extends JFrame {
     // Variables declaration - do not modify

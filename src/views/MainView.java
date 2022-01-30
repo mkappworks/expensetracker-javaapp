@@ -5,6 +5,10 @@ import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.WindowConstants;
 
+import views.Category.CategoryView;
+import views.Tracker.TrackerView;
+import views.Transaction.TransactionView;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -95,6 +99,7 @@ public class MainView extends JFrame {
     }
 
     private void jButtonTransactionViewActionPerformed(java.awt.event.ActionEvent evt) {
+        TransactionView.main();
         this.dispose();
     }
 

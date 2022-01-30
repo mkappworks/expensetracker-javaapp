@@ -1,4 +1,4 @@
-package views;
+package views.Category;
 
 import java.util.ArrayList;
 import java.awt.Color;
@@ -29,6 +29,7 @@ import controller.Category.CategoryRepoManager;
 import models.Category.Category;
 import models.Category.CategoryList;
 import utils.TypeCheck;
+import views.MainView;
 
 public class CategoryView extends javax.swing.JFrame {
 
