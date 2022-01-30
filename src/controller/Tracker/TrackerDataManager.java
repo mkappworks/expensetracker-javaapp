@@ -4,15 +4,17 @@ import models.Tracker.TrackerDataList;
 
 public abstract class TrackerDataManager {
 
-    private TrackerDataList ctdList;
+    private TrackerDataList trackerDataList;
 
     public abstract void convertToCtdList();
 
-    public TrackerDataList getCtdList() {
-        return ctdList;
+    public TrackerDataList getTrackerDataList() {
+        return trackerDataList;
     }
 
-    public void setCtdList(TrackerDataList ctdList) {
-        this.ctdList = ctdList;
+    public void setTrackerDataList(TrackerDataList trackerDataList) {
+        this.trackerDataList = trackerDataList;
     }
+
+
 }
