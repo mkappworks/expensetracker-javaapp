@@ -1,4 +1,4 @@
-package views.Transaction;
+package views.Category;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -11,29 +11,23 @@ import javax.swing.ListSelectionModel;
 
 import controller.Category.CategoryRepoGet;
 import controller.Category.CategoryRepoManager;
-import controller.Transaction.TransactionRepoGet;
-import controller.Transaction.TransactionRepoManager;
-import models.Category.Category;
-import models.Transaction.Transaction;
-import views.common.CategoryCellEditor;
-import views.common.CategoryCellRenderer;
 
-public class JTransactionTable extends JTable {
+import models.Category.Category;
+
+public class JCategoryTable extends JTable {
 
     private JTable table = new JTable();
     private JScrollPane scrollpane = new JScrollPane();
-    private TransactionTableModel tableModel;
+    private CategoryTableModel tableModel;
 
-    public JTransactionTable() {
+    public JCategoryTable() {
         initComponents();
 
     }
 
     private void initComponents() {
-        tableModel = new TransactionTableModel(getTransactionListData());
+        tableModel = new CategoryTableModel(getCategoryListData());
         table.setModel(tableModel);
-        table.setDefaultRenderer(Category.class, new CategoryCellRenderer());
-        table.setDefaultEditor(Category.class, new CategoryCellEditor(getCategoryListData()));
         table.setBounds(new java.awt.Rectangle(0, 20, 450, 64));
         table.setColumnSelectionAllowed(true);
         table.getTableHeader().setResizingAllowed(false);
@@ -50,14 +44,6 @@ public class JTransactionTable extends JTable {
         return this.scrollpane;
     }
 
-    private List<Transaction> getTransactionListData() {
-        TransactionRepoManager transactionRepoGet = new TransactionRepoGet();
-        transactionRepoGet.query();
-        List<Transaction> listTransaction = new ArrayList<>();
-        listTransaction = transactionRepoGet.getTransactionList().getList();
-        return listTransaction;
-    }
-
     private List<Category> getCategoryListData() {
         CategoryRepoManager categoryRepoGet = new CategoryRepoGet();
         categoryRepoGet.query();
@@ -66,8 +52,8 @@ public class JTransactionTable extends JTable {
         return listCategory;
     }
 
-    public void updateCategoryListData() {
-        tableModel = new TransactionTableModel(getTransactionListData());
+    public void updateTransactionListData() {
+        tableModel = new CategoryTableModel(getCategoryListData());
         table.setModel(tableModel);
     }
 

@@ -32,7 +32,7 @@ public class TransactionView extends JFrame {
         private JTextField jTextFieldRecurringAmount;
         private JTextField jTextId;
         private JTextField jTextStartDate;
-        JScrollPane jScrollPane;
+        JScrollPane jScrollPaneTransaction;
         private JTransactionTable jTransactionTable;
         // End of variables declaration
 
@@ -68,7 +68,7 @@ public class TransactionView extends JFrame {
                 jTextFieldAmount = new JTextField();
                 jButtonSaveAmend = new JButton();
                 jTransactionTable = new JTransactionTable();
-                jScrollPane = jTransactionTable.getScrollPane();
+                jScrollPaneTransaction = jTransactionTable.getScrollPane();
 
                 setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
                 addWindowListener(new java.awt.event.WindowAdapter() {
@@ -97,14 +97,6 @@ public class TransactionView extends JFrame {
                                 jButtonAddNewActionPerformed(evt);
                         }
                 });
-
-                // jTable.setBounds(new java.awt.Rectangle(0, 20, 450, 64));
-                // jTable.setColumnSelectionAllowed(true);
-                // jTable.getTableHeader().setResizingAllowed(false);
-                // jTable.getTableHeader().setReorderingAllowed(false);
-                // jScrollPane.setViewportView(jTable);
-                // jTable.getColumnModel().getSelectionModel()
-                // .setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 
                 jLabelRecurringType.setText("Recurring Type");
 
@@ -212,7 +204,7 @@ public class TransactionView extends JFrame {
                                                                                                                 .addComponent(jTextFieldAmount,
                                                                                                                                 GroupLayout.Alignment.TRAILING))
                                                                                                 .addGap(36, 36, 36)))
-                                                                .addComponent(jScrollPane,
+                                                                .addComponent(jScrollPaneTransaction,
                                                                                 GroupLayout.PREFERRED_SIZE, 564,
                                                                                 GroupLayout.PREFERRED_SIZE)
                                                                 .addGap(21, 21, 21))
@@ -234,7 +226,7 @@ public class TransactionView extends JFrame {
                                                                 .addGap(36, 36, 36)
                                                                 .addGroup(layout.createParallelGroup(
                                                                                 GroupLayout.Alignment.LEADING)
-                                                                                .addComponent(jScrollPane,
+                                                                                .addComponent(jScrollPaneTransaction,
                                                                                                 GroupLayout.PREFERRED_SIZE,
                                                                                                 350,
                                                                                                 GroupLayout.PREFERRED_SIZE)
@@ -329,7 +321,7 @@ public class TransactionView extends JFrame {
         }
 
         private void jButtonAddNewActionPerformed(java.awt.event.ActionEvent evt) {
-
+                jTransactionTable.updateCategoryListData();
         }
 
         private void jButtonSaveAmendActionPerformed(java.awt.event.ActionEvent evt) {

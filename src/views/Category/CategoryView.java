@@ -2,7 +2,6 @@ package views.Category;
 
 import java.util.ArrayList;
 import java.awt.Color;
-import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -11,27 +10,23 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.ListSelectionModel;
-import javax.swing.WindowConstants;
 import javax.swing.border.Border;
-import javax.swing.JTable;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle;
+import javax.swing.WindowConstants;
 
 import controller.Category.CategoryRepoAdd;
-import controller.Category.CategoryRepoGet;
 import controller.Category.CategoryRepoManager;
 import models.Category.Category;
 import models.Category.CategoryList;
 import utils.TypeCheck;
 import views.MainView;
 
-public class CategoryView extends javax.swing.JFrame {
+public class CategoryView extends JFrame {
 
     // Variables declaration - do not modify
     private JButton jButtonAddNew;
@@ -40,31 +35,11 @@ public class CategoryView extends javax.swing.JFrame {
     private JLabel jLabelId;
     private JLabel jLabelTitle;
     private JLabel jLabelTransactionType;
-    private JScrollPane jScrollPaneCategory;
     private JTextField jTextFieldBudget;
     private JTextField jTextId;
     private JTextField jTextTitle;
-
-    String[] columnTitles = { "id", "Title", "Transaction Type", "Budget" };
-    DefaultTableModel tableModel = new DefaultTableModel(columnTitles,
-            0) {
-        Class[] types = new Class[] {
-                String.class, String.class, String.class, String.class
-        };
-        boolean[] canEdit = new boolean[] {
-                false, false, false, false
-        };
-
-        public Class getColumnClass(int columnIndex) {
-            return types[columnIndex];
-        }
-
-        public boolean isCellEditable(int rowIndex, int columnIndex) {
-            return canEdit[columnIndex];
-        };
-    };
-
-    private JTable jTableCategory = new JTable(tableModel);
+    private JScrollPane jScrollPaneCategory;
+    private JCategoryTable jCategoryTable;
     // End of variables declaration
 
     public CategoryView() {
@@ -90,6 +65,8 @@ public class CategoryView extends javax.swing.JFrame {
         jLabelBudget = new JLabel();
         jTextFieldBudget = new JTextField();
         jButtonAddNew = new JButton();
+        jCategoryTable = new JCategoryTable();
+        jScrollPaneCategory = jCategoryTable.getScrollPane();
 
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -103,16 +80,6 @@ public class CategoryView extends javax.swing.JFrame {
         jComboBoxTransactionType.setModel(new DefaultComboBoxModel<>(new String[] { "income", "expense" }));
 
         jLabelTitle.setText("Title");
-
-        setCategoryTableData();
-
-        jTableCategory.setBounds(new Rectangle(0, 20, 450, 64));
-        jTableCategory.setColumnSelectionAllowed(true);
-        jTableCategory.getTableHeader().setResizingAllowed(false);
-        jTableCategory.getTableHeader().setReorderingAllowed(false);
-        jScrollPaneCategory.setViewportView(jTableCategory);
-        jTableCategory.getColumnModel().getSelectionModel()
-                .setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
         jLabelTransactionType.setText("Transaction Type");
 
@@ -231,25 +198,6 @@ public class CategoryView extends javax.swing.JFrame {
         return true;
     }
 
-    private void setCategoryTableData() {
-
-        tableModel.setRowCount(0);
-
-        CategoryRepoManager categoryRepoGet = new CategoryRepoGet();
-        categoryRepoGet.query();
-        ArrayList<Category> categoryArray = categoryRepoGet.getCategoryList().getList();
-
-        if (categoryArray.isEmpty())
-            return;
-
-        for (Category category : categoryArray) {
-            Object[] rowData = new Object[] { category.getId(), category.getTitle(), category.getTransactionType(),
-                    category.getBudget() };
-            tableModel.addRow(rowData);
-
-        }
-    }
-
     private void jButtonAddNewActionPerformed(ActionEvent evt) {
         setTextFieldBorderColor();
 
@@ -270,7 +218,7 @@ public class CategoryView extends javax.swing.JFrame {
         categoryRepoAdd.setCategoryList(categoryList);
         categoryRepoAdd.query();
 
-        setCategoryTableData();
+        jCategoryTable.updateTransactionListData();
 
         jTextId.setText("");
         jTextTitle.setText("");
