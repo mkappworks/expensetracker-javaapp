@@ -11,16 +11,14 @@ import controller.Recurring.TransactionRecurringManager;
 import controller.Transaction.TransactionRepoGet;
 import controller.Transaction.TransactionRepoManager;
 import models.Category.Category;
-import models.Tracker.CategoryTrackerData;
-import models.Tracker.CategoryTrackerDataList;
+import models.Tracker.TrackerData;
+import models.Tracker.TrackerDataList;
 import models.Transaction.Transaction;
 import models.Transaction.TransactionEntry;
 import models.Transaction.TransactionEntryList;
 import models.Transaction.TransactionList;
 
 public class TrackerDataGet extends TrackerDataManager {
-
-    private CategoryTrackerDataList ctdList;
 
     public void convertToCtdList() {
 
@@ -33,9 +31,9 @@ public class TrackerDataGet extends TrackerDataManager {
         ArrayList<Transaction> montlyRecurringTransactionList = new ArrayList<Transaction>();
 
         for (Transaction transaction : transactionList) {
-            if (transaction.getRecurringType() == "daily") {
+            if (transaction.getRecurringType().equals("daily")) {
                 dailyRecurringTransactionList.add(transaction);
-            } else if (transaction.getRecurringType() == "monthly") {
+            } else if (transaction.getRecurringType().equals("monthly")) {
                 montlyRecurringTransactionList.add(transaction);
             } else {
                 noRecurringTransactionList.add(transaction);
@@ -62,7 +60,7 @@ public class TrackerDataGet extends TrackerDataManager {
         TransactionEntryList combinedTransactionEntryList = new TransactionEntryList(combinedTransactionEntry);
 
         /* Category */
-        ArrayList<CategoryTrackerData> categoryTrackerDatas = new ArrayList<CategoryTrackerData>();
+        ArrayList<TrackerData> trackerDataList = new ArrayList<TrackerData>();
 
         CategoryRepoManager categoryRepoGet = new CategoryRepoGet();
         categoryRepoGet.query();
@@ -72,26 +70,16 @@ public class TrackerDataGet extends TrackerDataManager {
             double amount = 0.0;
 
             for (TransactionEntry transactionEntry : combinedTransactionEntryList.getList()) {
-                if (transactionEntry.getTransactionData().getCategory().equals(category)) {
+                if (transactionEntry.getTransactionData().getCategory().getId() == (category.getId())) {
                     amount += transactionEntry.getTransactionData().getAmount();
                 }
             }
 
-            CategoryTrackerData categoryTrackerData = new CategoryTrackerData(category,
-                    amount);
-
-            categoryTrackerDatas.add(categoryTrackerData);
+            trackerDataList.add(new TrackerData(category, amount));
         }
 
-        this.setCtdList(new CategoryTrackerDataList(categoryTrackerDatas));
+        this.setTrackerDataList(new TrackerDataList(trackerDataList));
 
     }
 
-    public CategoryTrackerDataList getCtdList() {
-        return ctdList;
-    }
-
-    public void setCtdList(CategoryTrackerDataList ctdList) {
-        this.ctdList = ctdList;
-    }
 }

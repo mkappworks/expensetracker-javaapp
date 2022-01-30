@@ -81,4 +81,7 @@ public class Transaction {
         this.amount = amount;
     }
 
+    public String toString() {
+        return this.note;
+    }
 }

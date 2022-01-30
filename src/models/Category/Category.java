@@ -46,4 +46,7 @@ public class Category {
         this.transactionType = transactionType;
     }
 
+    public String toString() {
+        return this.title;
+    }
 }
