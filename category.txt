@@ -2,3 +2,6 @@
 02 rent 1500 expense
 03 transport 500 expense
 04 salary 2000 income
+5 stocks 200.0 income
+6 books 20.0 expense
+7 drinks 10.0 expense
