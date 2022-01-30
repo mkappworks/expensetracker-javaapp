@@ -1,75 +1,106 @@
 package views;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import java.awt.GridBagLayout;
+import javax.swing.GroupLayout;
 import javax.swing.JButton;
-import java.awt.GridBagConstraints;
+import javax.swing.WindowConstants;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.Insets;
-import javax.swing.SwingConstants;
 
 public class MainView extends JFrame {
 
-    private JPanel contentPane;
+    // Variables declaration - do not modify
+    private JButton jButtonCategoryView;
+    private JButton jButtonTrackerView;
+    private JButton jButtonTransactionView;
+    // End of variables declaration
 
     public MainView() {
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 450, 300);
-        contentPane = new JPanel();
-        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-        setContentPane(contentPane);
-        GridBagLayout gbl_contentPane = new GridBagLayout();
-        gbl_contentPane.columnWidths = new int[] { 0, 0, 0 };
-        gbl_contentPane.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-        gbl_contentPane.columnWeights = new double[] { 0.0, 0.0, Double.MIN_VALUE };
-        gbl_contentPane.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
-        contentPane.setLayout(gbl_contentPane);
+        initComponents();
+    }
 
-        JButton btncategoryBudgetTracker = new JButton("Category Budget Tracker");
-        btncategoryBudgetTracker.setHorizontalAlignment(SwingConstants.LEFT);
-        btncategoryBudgetTracker.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+    public static void main() {
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new MainView().setVisible(true);
             }
         });
-        GridBagConstraints gbc_btncategoryBudgetTracker = new GridBagConstraints();
-        gbc_btncategoryBudgetTracker.gridheight = 2;
-        gbc_btncategoryBudgetTracker.insets = new Insets(0, 0, 5, 0);
-        gbc_btncategoryBudgetTracker.gridx = 1;
-        gbc_btncategoryBudgetTracker.gridy = 2;
-        contentPane.add(btncategoryBudgetTracker, gbc_btncategoryBudgetTracker);
+    }
 
-        JButton btnTransactionView = new JButton("Transactions View");
-        btnTransactionView.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                setVisible(false);
-                new TransactionView().setVisible(true);
+    private void initComponents() {
+
+        jButtonTrackerView = new JButton();
+        jButtonTransactionView = new JButton();
+        jButtonCategoryView = new JButton();
+
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+        jButtonTrackerView.setText("Tracker View");
+        jButtonTrackerView.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                jButtonTrackerViewActionPerformed(evt);
             }
         });
 
-        btnTransactionView.setHorizontalAlignment(SwingConstants.LEFT);
-        GridBagConstraints gbc_btnTransactionView = new GridBagConstraints();
-        gbc_btnTransactionView.anchor = GridBagConstraints.NORTHWEST;
-        gbc_btnTransactionView.insets = new Insets(0, 0, 5, 0);
-        gbc_btnTransactionView.gridx = 1;
-        gbc_btnTransactionView.gridy = 5;
-        contentPane.add(btnTransactionView, gbc_btnTransactionView);
-
-        JButton btnCategoryView = new JButton("CategoryView");
-        btnCategoryView.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                setVisible(false);
-                new CategoryView().setVisible(true);
+        jButtonTransactionView.setText("Transaction View");
+        jButtonTransactionView.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                jButtonTransactionViewActionPerformed(evt);
             }
         });
-        btnCategoryView.setHorizontalAlignment(SwingConstants.LEFT);
-        GridBagConstraints gbc_btnCategoryView = new GridBagConstraints();
-        gbc_btnCategoryView.anchor = GridBagConstraints.WEST;
-        gbc_btnCategoryView.gridx = 1;
-        gbc_btnCategoryView.gridy = 7;
-        contentPane.add(btnCategoryView, gbc_btnCategoryView);
+
+        jButtonCategoryView.setText("Category View");
+        jButtonCategoryView.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                jButtonCategoryViewActionPerformed(evt);
+            }
+        });
+
+        GroupLayout layout = new GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+
+        layout.setHorizontalGroup(
+                layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addGap(42, 42, 42)
+                                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(jButtonTransactionView, GroupLayout.DEFAULT_SIZE,
+                                                GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jButtonTrackerView, GroupLayout.DEFAULT_SIZE,
+                                                GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jButtonCategoryView, GroupLayout.DEFAULT_SIZE,
+                                                GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addContainerGap(207, Short.MAX_VALUE)));
+
+        layout.setVerticalGroup(
+                layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addGap(41, 41, 41)
+                                .addComponent(jButtonTrackerView, GroupLayout.PREFERRED_SIZE, 50,
+                                        GroupLayout.PREFERRED_SIZE)
+                                .addGap(21, 21, 21)
+                                .addComponent(jButtonTransactionView, GroupLayout.PREFERRED_SIZE, 50,
+                                        GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButtonCategoryView, GroupLayout.PREFERRED_SIZE, 50,
+                                        GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(70, Short.MAX_VALUE)));
+
+        pack();
+    }
+
+    private void jButtonTrackerViewActionPerformed(java.awt.event.ActionEvent evt) {
+
+    }
+
+    private void jButtonTransactionViewActionPerformed(java.awt.event.ActionEvent evt) {
+
+    }
+
+    private void jButtonCategoryViewActionPerformed(java.awt.event.ActionEvent evt) {
+        CategoryView.main();
+        this.dispose();
     }
 
 }
