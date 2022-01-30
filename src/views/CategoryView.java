@@ -12,7 +12,6 @@ import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.text.AttributeSet.ColorAttribute;
 import javax.swing.ListSelectionModel;
 import javax.swing.WindowConstants;
 import javax.swing.border.Border;
@@ -46,9 +45,25 @@ public class CategoryView extends javax.swing.JFrame {
     private JTextField jTextTitle;
 
     String[] columnTitles = { "id", "Title", "Transaction Type", "Budget" };
-    private DefaultTableModel tableModel = new DefaultTableModel(columnTitles, 0);
-    private JTable jTableCategory = new JTable(tableModel);
+    DefaultTableModel tableModel = new DefaultTableModel(columnTitles,
+            0) {
+        Class[] types = new Class[] {
+                String.class, String.class, String.class, String.class
+        };
+        boolean[] canEdit = new boolean[] {
+                false, false, false, false
+        };
 
+        public Class getColumnClass(int columnIndex) {
+            return types[columnIndex];
+        }
+
+        public boolean isCellEditable(int rowIndex, int columnIndex) {
+            return canEdit[columnIndex];
+        };
+    };
+
+    private JTable jTableCategory = new JTable(tableModel);
     // End of variables declaration
 
     public CategoryView() {
@@ -64,20 +79,18 @@ public class CategoryView extends javax.swing.JFrame {
     }
 
     private void initComponents() {
-
         jLabelId = new JLabel();
         jTextId = new JTextField();
         jComboBoxTransactionType = new JComboBox<>();
         jLabelTitle = new JLabel();
         jScrollPaneCategory = new JScrollPane();
-        // jTableCategory
         jLabelTransactionType = new JLabel();
         jTextTitle = new JTextField();
         jLabelBudget = new JLabel();
         jTextFieldBudget = new JTextField();
         jButtonAddNew = new JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosed(java.awt.event.WindowEvent evt) {
                 formWindowClosed(evt);
@@ -218,18 +231,22 @@ public class CategoryView extends javax.swing.JFrame {
     }
 
     private void setCategoryTableData() {
+
         tableModel.setRowCount(0);
+
         CategoryRepoManager categoryRepoGet = new CategoryRepoGet();
         categoryRepoGet.query();
         ArrayList<Category> categoryArray = categoryRepoGet.getCategoryList().getList();
+
+        if (categoryArray.isEmpty())
+            return;
 
         for (Category category : categoryArray) {
             Object[] rowData = new Object[] { category.getId(), category.getTitle(), category.getTransactionType(),
                     category.getBudget() };
             tableModel.addRow(rowData);
-            ;
-        }
 
+        }
     }
 
     private void jButtonAddNewActionPerformed(ActionEvent evt) {
