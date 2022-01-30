@@ -1,4 +1,6 @@
-01 01/01/2022 01 food 100 expense lunch monthly 2 10
-02 01/01/2022 01 food 100 expense dinner daily 2 10
-03 01/01/2022 01 food 100 expense breakfast norecurring 0 10
-04 01/01/2022 02 rent 1500 expense hotel norecurring 0 10
+1 01/01/2022 01 food 100 expense lunch monthly 2 10
+2 01/01/2022 01 food 100 expense dinner daily 2 10
+3 01/01/2022 01 food 100 expense breakfast no 0 10
+4 01/01/2022 02 rent 1500 expense hotel no 0 10
+5 01/03/2021 4 salary 2000.0 income stock monthly 12 1000.0
+6 01/03/2022 1 food 100.0 expense breakfast daily 1 7.0
