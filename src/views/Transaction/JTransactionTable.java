@@ -5,9 +5,13 @@ import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.DefaultCellEditor;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.table.TableColumn;
 
 import controller.Category.CategoryRepoGet;
 import controller.Category.CategoryRepoManager;
@@ -26,20 +30,28 @@ public class JTransactionTable extends JTable {
 
     public JTransactionTable() {
         initComponents();
-
     }
 
     private void initComponents() {
         tableModel = new TransactionTableModel(getTransactionListData());
         table.setModel(tableModel);
+
         table.setDefaultRenderer(Category.class, new CategoryCellRenderer());
         table.setDefaultEditor(Category.class, new CategoryCellEditor(getCategoryListData()));
+
+        TableColumn testColumn = table.getColumnModel().getColumn(4);
+        JComboBox<String> jComboBoxRecurringType = new JComboBox<String>();
+        jComboBoxRecurringType.setModel(new DefaultComboBoxModel<>(
+                new String[] { "no", "daily", "monthly" }));
+        testColumn.setCellEditor(new DefaultCellEditor(jComboBoxRecurringType));
+
         table.setBounds(new java.awt.Rectangle(0, 20, 450, 64));
         table.setColumnSelectionAllowed(true);
         table.getTableHeader().setResizingAllowed(false);
         table.getTableHeader().setReorderingAllowed(false);
         table.getColumnModel().getSelectionModel()
                 .setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+
         scrollpane = new JScrollPane(table);
         scrollpane.setPreferredSize(new Dimension(400, 200));
         add(scrollpane, BorderLayout.CENTER);
@@ -66,7 +78,7 @@ public class JTransactionTable extends JTable {
         return listCategory;
     }
 
-    public void updateCategoryListData() {
+    public void updateTransactionListData() {
         tableModel = new TransactionTableModel(getTransactionListData());
         table.setModel(tableModel);
     }

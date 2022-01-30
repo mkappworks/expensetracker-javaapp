@@ -1,14 +1,34 @@
 package views.Transaction;
 
+import java.awt.Color;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+
+import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle;
 import javax.swing.WindowConstants;
+import javax.swing.border.Border;
+
+import controller.Category.CategoryRepoAdd;
+import controller.Category.CategoryRepoGet;
+import controller.Category.CategoryRepoManager;
+import controller.Transaction.TransactionRepoAdd;
+import controller.Transaction.TransactionRepoManager;
+import models.Category.Category;
+import models.Transaction.Transaction;
+import models.Transaction.TransactionList;
+import utils.TypeCheck;
+
 import javax.swing.JComboBox;
 
 import views.MainView;
@@ -18,7 +38,7 @@ public class TransactionView extends JFrame {
         // Variables declaration - do not modify
         private JButton jButtonAddNew;
         private JButton jButtonSaveAmend;
-        private JComboBox<String> jComboBoxCategory;
+        private JComboBox<Category> jComboBoxCategory;
         private JComboBox<String> jComboBoxRecurringType;
         private JLabel jLabelAmount;
         private JLabel jLabelCategory;
@@ -51,21 +71,21 @@ public class TransactionView extends JFrame {
 
         private void initComponents() {
 
+                jLabelStartDate = new JLabel();
                 jLabelCategory = new JLabel();
                 jTextStartDate = new JTextField();
                 jLabelNote = new JLabel();
                 jLabelId = new JLabel();
+                jLabelRecurringType = new JLabel();
                 jTextFieldNote = new JTextField();
                 jTextId = new JTextField();
-                jComboBoxCategory = new JComboBox<>();
-                jLabelStartDate = new JLabel();
-                jButtonAddNew = new JButton();
-                jLabelRecurringType = new JLabel();
-                jComboBoxRecurringType = new JComboBox<>();
+                jComboBoxRecurringType = new JComboBox<String>();
+                jComboBoxCategory = new JComboBox<Category>();
                 jLabelRecurringAmount = new JLabel();
                 jTextFieldRecurringAmount = new JTextField();
                 jLabelAmount = new JLabel();
                 jTextFieldAmount = new JTextField();
+                jButtonAddNew = new JButton();
                 jButtonSaveAmend = new JButton();
                 jTransactionTable = new JTransactionTable();
                 jScrollPaneTransaction = jTransactionTable.getScrollPane();
@@ -83,11 +103,13 @@ public class TransactionView extends JFrame {
 
                 jLabelId.setText("id");
 
-                jComboBoxCategory.addItemListener(new java.awt.event.ItemListener() {
-                        public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                                jComboBoxCategoryItemStateChanged(evt);
-                        }
-                });
+                CategoryRepoManager categoryRepoGet = new CategoryRepoGet();
+                categoryRepoGet.query();
+                ArrayList<Category> categoryArray = categoryRepoGet.getCategoryList().getList();
+
+                for (Category category : categoryArray) {
+                        jComboBoxCategory.addItem(category);
+                }
 
                 jLabelStartDate.setText("Start Date");
 
@@ -102,7 +124,7 @@ public class TransactionView extends JFrame {
 
                 jComboBoxRecurringType
                                 .setModel(new DefaultComboBoxModel<>(
-                                                new String[] { "norecurring", "monthly", "daily" }));
+                                                new String[] { "no", "daily", "monthly" }));
                 jComboBoxRecurringType.addItemListener(new java.awt.event.ItemListener() {
                         public void itemStateChanged(java.awt.event.ItemEvent evt) {
                                 jComboBoxRecurringTypeItemStateChanged(evt);
@@ -112,7 +134,6 @@ public class TransactionView extends JFrame {
                 jLabelRecurringAmount.setText("Recurring Amount");
 
                 jTextFieldRecurringAmount.setText("0");
-                jTextFieldRecurringAmount.setToolTipText("");
                 jTextFieldRecurringAmount.setEnabled(false);
 
                 jLabelAmount.setText("Amount");
@@ -320,19 +341,108 @@ public class TransactionView extends JFrame {
                 MainView.main();
         }
 
+        private void setTextFieldBorderColor() {
+                Border border = BorderFactory.createLineBorder(Color.WHITE);
+                jTextId.setBorder(border);
+                jTextStartDate.setBorder(border);
+                jTextFieldNote.setBorder(border);
+                jTextFieldRecurringAmount.setBorder(border);
+                jTextFieldAmount.setBorder(border);
+        }
+
+        private boolean isTextFieldDataValid() {
+                TypeCheck typeCheck = new TypeCheck();
+                Border border = BorderFactory.createLineBorder(Color.RED);
+
+                if (!typeCheck.isInt(jTextId.getText())) {
+                        jTextId.setBorder(border);
+                        JOptionPane.showMessageDialog(new JFrame(), "Please Enter a Numeric Id");
+                        return false;
+                }
+
+                if (typeCheck.isEmpty(jTextStartDate.getText())) {
+                        jTextStartDate.setBorder(border);
+                        JOptionPane.showMessageDialog(new JFrame(), "Please Enter a Start Date");
+                        return false;
+                }
+
+                if (typeCheck.isEmpty(jTextFieldNote.getText())) {
+                        jTextFieldNote.setBorder(border);
+                        JOptionPane.showMessageDialog(new JFrame(), "Please Enter a Note");
+                        return false;
+                }
+
+                if (!typeCheck.isInt(jTextFieldRecurringAmount.getText())) {
+                        jTextFieldRecurringAmount.setBorder(border);
+                        JOptionPane.showMessageDialog(new JFrame(), "Please Enter a Recurring Amount");
+                        return false;
+                }
+
+                if (!typeCheck.isDouble(jTextFieldAmount.getText())) {
+                        jTextFieldAmount.setBorder(border);
+                        JOptionPane.showMessageDialog(new JFrame(), "Please Enter a Amount");
+                        return false;
+                }
+
+                return true;
+        }
+
         private void jButtonAddNewActionPerformed(java.awt.event.ActionEvent evt) {
-                jTransactionTable.updateCategoryListData();
+
+                setTextFieldBorderColor();
+
+                if (!isTextFieldDataValid())
+                        return;
+
+                int id = Integer.parseInt(jTextId.getText());
+                Date startDate = new Date();
+                try {
+                        startDate = new SimpleDateFormat("dd/MM/yyyy").parse(jTextStartDate.getText());
+                } catch (ParseException e) {
+                        e.printStackTrace();
+                }
+                Category category = (Category) jComboBoxCategory.getSelectedItem();
+                String note = jTextFieldNote.getText();
+                String recurringType = jComboBoxRecurringType.getSelectedItem().toString();
+                int additionalRecurringAmount = Integer.parseInt(jTextFieldRecurringAmount.getText());
+                double amount = Double.parseDouble(jTextFieldAmount.getText());
+
+                ArrayList<Transaction> transactionArray = new ArrayList<Transaction>();
+                Transaction transaction = new Transaction(id, startDate, category, note, recurringType,
+                                additionalRecurringAmount, amount);
+
+                transactionArray.add(transaction);
+                TransactionList transactionList = new TransactionList(transactionArray);
+
+                TransactionRepoManager transactionRepoAdd = new TransactionRepoAdd();
+                transactionRepoAdd.setTransactionList(transactionList);
+                transactionRepoAdd.query();
+
+                jTransactionTable.updateTransactionListData();
+
+                jTextId.setText("");
+                jTextStartDate.setText("");
+                jComboBoxCategory.setSelectedItem(0);
+                jTextFieldNote.setText("");
+                jComboBoxRecurringType.setSelectedIndex(0);
+                jTextFieldRecurringAmount.setText("0");
+                jTextFieldAmount.setText("");
+
         }
 
         private void jButtonSaveAmendActionPerformed(java.awt.event.ActionEvent evt) {
 
         }
 
-        private void jComboBoxCategoryItemStateChanged(java.awt.event.ItemEvent evt) {
-
-        }
-
         private void jComboBoxRecurringTypeItemStateChanged(java.awt.event.ItemEvent evt) {
+                String recurringType = jComboBoxRecurringType.getSelectedItem().toString();
+                if (recurringType == "no") {
+                        jTextFieldRecurringAmount.setEnabled(false);
+                        jTextFieldRecurringAmount.setText("0");
+                } else {
+                        jTextFieldRecurringAmount.setEnabled(true);
+                        jTextFieldRecurringAmount.setText("1");
+                }
 
         }
 

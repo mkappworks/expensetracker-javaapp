@@ -2,7 +2,6 @@ package views.Tracker;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JScrollPane;
@@ -49,22 +48,6 @@ public class JTrackerTable extends JTable {
         List<TrackerData> listTracker = trackerDataGet.getTrackerDataList().getList();
 
         return listTracker;
-    }
-
-    private void setTrackerTableData() {
-        // tableModel.setRowCount(0);
-
-        // if (trackerArray.isEmpty())
-        // return;
-
-        // for (TrackerData trackerData : trackerArray) {
-        // Object[] rowData = new Object[] { trackerData.getCategory().getId(),
-        // trackerData.getCategory().getTitle(),
-        // trackerData.getCategory().getTransactionType(),
-        // trackerData.getCategory().getBudget(), trackerData.getAmount() };
-        // tableModel.addRow(rowData);
-
-        // }
     }
 
 }

@@ -58,15 +58,4 @@ public class CategoryCellEditor extends AbstractCellEditor
         this.category = (Category) comboCategory.getSelectedItem();
     }
 
-    // @Override
-    // public boolean equals(Object obj) {
-    // if (obj == null)
-    // return false;
-    // if (obj.getClass() != Category.class)
-    // return false;
-    // if (getName().equals(((Category) obj).getTitle()))
-    // return true;
-    // return false;
-    // }
-
 }
