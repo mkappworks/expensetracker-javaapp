@@ -1,208 +1,263 @@
 package views;
 
-import javax.swing.JFrame;
+import java.util.ArrayList;
+import java.awt.Color;
+import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-
+import javax.swing.BorderFactory;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.GroupLayout;
 import javax.swing.JButton;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.text.AttributeSet.ColorAttribute;
+import javax.swing.ListSelectionModel;
+import javax.swing.WindowConstants;
+import javax.swing.border.Border;
+import javax.swing.JTable;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import javax.swing.LayoutStyle;
 
+import controller.Category.CategoryRepoAdd;
 import controller.Category.CategoryRepoGet;
 import controller.Category.CategoryRepoManager;
 import models.Category.Category;
+import models.Category.CategoryList;
+import utils.TypeCheck;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.util.ArrayList;
+public class CategoryView extends javax.swing.JFrame {
 
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JTable;
-import javax.swing.JComboBox;
+    // Variables declaration - do not modify
+    private JButton jButtonAddNew;
+    private JComboBox<String> jComboBoxTransactionType;
+    private JLabel jLabelBudget;
+    private JLabel jLabelId;
+    private JLabel jLabelTitle;
+    private JLabel jLabelTransactionType;
+    private JScrollPane jScrollPaneCategory;
+    private JTextField jTextFieldBudget;
+    private JTextField jTextId;
+    private JTextField jTextTitle;
 
-public class CategoryView extends JFrame {
-    private JPanel contentPane;
-    private JTable tableCategory;
-    private JTextField textFieldID;
-    private JTextField textFieldTitle;
-    private JComboBox<String> comboBoxTransactionType;
-    private JTextField textFieldBudget;
-    private JButton btnAdd;
+    String[] columnTitles = { "id", "Title", "Transaction Type", "Budget" };
+    private DefaultTableModel tableModel = new DefaultTableModel(columnTitles, 0);
+    private JTable jTableCategory = new JTable(tableModel);
+
+    // End of variables declaration
 
     public CategoryView() {
-        addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosed(WindowEvent e) {
-                setVisible(false);
-                new MainView().setVisible(true);
+        initComponents();
+    }
+
+    public static void main() {
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new CategoryView().setVisible(true);
+            }
+        });
+    }
+
+    private void initComponents() {
+
+        jLabelId = new JLabel();
+        jTextId = new JTextField();
+        jComboBoxTransactionType = new JComboBox<>();
+        jLabelTitle = new JLabel();
+        jScrollPaneCategory = new JScrollPane();
+        // jTableCategory
+        jLabelTransactionType = new JLabel();
+        jTextTitle = new JTextField();
+        jLabelBudget = new JLabel();
+        jTextFieldBudget = new JTextField();
+        jButtonAddNew = new JButton();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
             }
         });
 
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 450, 300);
-        contentPane = new JPanel();
-        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-        setContentPane(contentPane);
-        GridBagLayout gbl_contentPane = new GridBagLayout();
-        gbl_contentPane.columnWidths = new int[] { 0, 252, 0, 0, 284, 0 };
-        gbl_contentPane.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-        gbl_contentPane.columnWeights = new double[] { 0.0, 1.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
-        gbl_contentPane.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-                Double.MIN_VALUE };
-        contentPane.setLayout(gbl_contentPane);
+        jLabelId.setText("id");
 
+        jComboBoxTransactionType.setModel(new DefaultComboBoxModel<>(new String[] { "income", "expense" }));
+
+        jLabelTitle.setText("Title");
+
+        setCategoryTableData();
+
+        jTableCategory.setBounds(new Rectangle(0, 20, 450, 64));
+        jTableCategory.setColumnSelectionAllowed(true);
+        jTableCategory.getTableHeader().setResizingAllowed(false);
+        jTableCategory.getTableHeader().setReorderingAllowed(false);
+        jScrollPaneCategory.setViewportView(jTableCategory);
+        jTableCategory.getColumnModel().getSelectionModel()
+                .setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        jLabelTransactionType.setText("Transaction Type");
+
+        jLabelBudget.setText("Budget");
+
+        jButtonAddNew.setText("Add Category");
+        jButtonAddNew.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                jButtonAddNewActionPerformed(evt);
+            }
+        });
+
+        GroupLayout layout = new GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+
+        layout.setHorizontalGroup(
+                layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addGap(30, 30, 30)
+                                                .addGroup(layout
+                                                        .createParallelGroup(GroupLayout.Alignment.LEADING)
+                                                        .addComponent(jLabelId)
+                                                        .addComponent(jLabelTitle)
+                                                        .addComponent(jLabelTransactionType)
+                                                        .addComponent(jLabelBudget))
+                                                .addGap(37, 37, 37)
+                                                .addGroup(layout
+                                                        .createParallelGroup(GroupLayout.Alignment.LEADING,
+                                                                false)
+                                                        .addComponent(jTextId)
+                                                        .addComponent(jTextTitle)
+                                                        .addComponent(jComboBoxTransactionType, 0, 132, Short.MAX_VALUE)
+                                                        .addComponent(jTextFieldBudget)))
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addGap(91, 91, 91)
+                                                .addComponent(jButtonAddNew, GroupLayout.PREFERRED_SIZE,
+                                                        120, GroupLayout.PREFERRED_SIZE)))
+                                .addGap(40, 40, 40)
+                                .addComponent(jScrollPaneCategory, GroupLayout.DEFAULT_SIZE, 404,
+                                        Short.MAX_VALUE)
+                                .addGap(19, 19, 19)));
+
+        layout.setVerticalGroup(
+                layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addGap(36, 36, 36)
+                                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jLabelId)
+                                        .addComponent(jTextId, GroupLayout.PREFERRED_SIZE, 40,
+                                                GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jTextTitle, GroupLayout.PREFERRED_SIZE, 40,
+                                                GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabelTitle))
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jLabelTransactionType)
+                                        .addComponent(jComboBoxTransactionType, GroupLayout.PREFERRED_SIZE,
+                                                40, GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addComponent(jLabelBudget)
+                                                .addGap(12, 12, 12))
+                                        .addComponent(jTextFieldBudget, GroupLayout.PREFERRED_SIZE, 40,
+                                                GroupLayout.PREFERRED_SIZE))
+                                .addGap(65, 65, 65)
+                                .addComponent(jButtonAddNew, GroupLayout.PREFERRED_SIZE, 50,
+                                        GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(37, Short.MAX_VALUE))
+                        .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jScrollPaneCategory, GroupLayout.PREFERRED_SIZE, 350,
+                                        GroupLayout.PREFERRED_SIZE)
+                                .addGap(25, 25, 25)));
+
+        pack();
+    }
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {
+        MainView.main();
+    }
+
+    private void setTextFieldBorderColor() {
+        Border border = BorderFactory.createLineBorder(Color.WHITE);
+        jTextId.setBorder(border);
+        jTextTitle.setBorder(border);
+        jTextFieldBudget.setBorder(border);
+    }
+
+    private boolean isTextFieldDataValid() {
+        TypeCheck typeCheck = new TypeCheck();
+        Border border = BorderFactory.createLineBorder(Color.RED);
+
+        if (!typeCheck.isInt(jTextId.getText())) {
+            jTextId.setBorder(border);
+            JOptionPane.showMessageDialog(new JFrame(), "Please Enter a Numeric Id");
+            return false;
+        }
+
+        if (typeCheck.isEmpty(jTextTitle.getText())) {
+            jTextTitle.setBorder(border);
+            JOptionPane.showMessageDialog(new JFrame(), "Please Enter a Category Title");
+            return false;
+        }
+
+        if (!typeCheck.isDouble(jTextFieldBudget.getText())) {
+            jTextFieldBudget.setBorder(border);
+            JOptionPane.showMessageDialog(new JFrame(), "Please Enter a Numeric Budget");
+            return false;
+        }
+
+        return true;
+    }
+
+    private void setCategoryTableData() {
+        tableModel.setRowCount(0);
         CategoryRepoManager categoryRepoGet = new CategoryRepoGet();
         categoryRepoGet.query();
         ArrayList<Category> categoryArray = categoryRepoGet.getCategoryList().getList();
 
-        String[] columnNames = { "id",
-                "Title",
-                "Transaction Type",
-                "Budget" };
+        for (Category category : categoryArray) {
+            Object[] rowData = new Object[] { category.getId(), category.getTitle(), category.getTransactionType(),
+                    category.getBudget() };
+            tableModel.addRow(rowData);
+            ;
+        }
 
-        Object[][] data = {
-                { "01", "Kathy", "Smith",
-                        "Snowboarding", },
-                { "02", "John", "Doe",
-                        "Rowing" },
-                { "03", "Sue", "Black",
-                        "Knitting" },
-                { "04", "Jane", "White",
-                        "Speed reading" },
-                { "05", "Joe", "Brown",
-                        "Pool" }
-        };
-        tableCategory = new JTable(data, columnNames);
-        tableCategory.setPreferredScrollableViewportSize(new Dimension(500, 70));
-        tableCategory.setFillsViewportHeight(true);
-        tableCategory.addMouseListener(new MouseListener() {
+    }
 
-            @Override
-            public void mouseClicked(MouseEvent e) {
-             //   System.out.println("mouseClicked " );
-            }
+    private void jButtonAddNewActionPerformed(ActionEvent evt) {
+        setTextFieldBorderColor();
 
-            @Override
-            public void mousePressed(MouseEvent e) {
-              //  System.out.println("mousePressed " + e.getID());
+        if (!isTextFieldDataValid())
+            return;
 
-            }
+        int id = Integer.parseInt(jTextId.getText());
+        String title = jTextTitle.getText();
+        String transactionType = jComboBoxTransactionType.getSelectedItem().toString();
+        double budget = Double.parseDouble(jTextFieldBudget.getText());
 
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                // System.out.println("mouseReleased ");
-            }
+        Category category = new Category(id, title, budget, transactionType);
+        ArrayList<Category> categoryArray = new ArrayList<Category>();
+        categoryArray.add(category);
+        CategoryList categoryList = new CategoryList(categoryArray);
 
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                // System.out.println("mouseEntered ");
-            }
+        CategoryRepoManager categoryRepoAdd = new CategoryRepoAdd();
+        categoryRepoAdd.setCategoryList(categoryList);
+        categoryRepoAdd.query();
 
-            @Override
-            public void mouseExited(MouseEvent e) {
-                // System.out.println("mouseExited ");
-            }
-        });
+        setCategoryTableData();
 
-        GridBagConstraints gbc_tableTransaction = new GridBagConstraints();
-        gbc_tableTransaction.gridwidth = 3;
-        gbc_tableTransaction.gridheight = 5;
-        gbc_tableTransaction.insets = new Insets(0, 0, 5, 0);
-        gbc_tableTransaction.fill = GridBagConstraints.BOTH;
-        gbc_tableTransaction.gridx = 2;
-        gbc_tableTransaction.gridy = 2;
-        contentPane.add(tableCategory, gbc_tableTransaction);
-
-        JLabel lblId = new JLabel("id");
-        GridBagConstraints gbc_lblId = new GridBagConstraints();
-        gbc_lblId.anchor = GridBagConstraints.WEST;
-        gbc_lblId.insets = new Insets(0, 0, 5, 5);
-        gbc_lblId.gridx = 0;
-        gbc_lblId.gridy = 1;
-        contentPane.add(lblId, gbc_lblId);
-
-        textFieldID = new JTextField();
-        GridBagConstraints gbc_textFieldID = new GridBagConstraints();
-        gbc_textFieldID.insets = new Insets(0, 0, 5, 5);
-        gbc_textFieldID.fill = GridBagConstraints.HORIZONTAL;
-        gbc_textFieldID.gridx = 1;
-        gbc_textFieldID.gridy = 1;
-        contentPane.add(textFieldID, gbc_textFieldID);
-        textFieldID.setColumns(10);
-
-        JLabel lblTitle = new JLabel("Title");
-        GridBagConstraints gbc_lblTitle = new GridBagConstraints();
-        gbc_lblTitle.anchor = GridBagConstraints.WEST;
-        gbc_lblTitle.insets = new Insets(0, 0, 5, 5);
-        gbc_lblTitle.gridx = 0;
-        gbc_lblTitle.gridy = 2;
-        contentPane.add(lblTitle, gbc_lblTitle);
-
-        textFieldTitle = new JTextField();
-        GridBagConstraints gbc_textFieldTitle = new GridBagConstraints();
-        gbc_textFieldTitle.insets = new Insets(0, 0, 5, 5);
-        gbc_textFieldTitle.fill = GridBagConstraints.HORIZONTAL;
-        gbc_textFieldTitle.gridx = 1;
-        gbc_textFieldTitle.gridy = 2;
-        contentPane.add(textFieldTitle, gbc_textFieldTitle);
-        textFieldTitle.setColumns(10);
-
-        JLabel lblTransactionType = new JLabel("Transaction Type");
-        GridBagConstraints gbc_lblTransactionType = new GridBagConstraints();
-        gbc_lblTransactionType.anchor = GridBagConstraints.WEST;
-        gbc_lblTransactionType.insets = new Insets(0, 0, 5, 5);
-        gbc_lblTransactionType.gridx = 0;
-        gbc_lblTransactionType.gridy = 3;
-        contentPane.add(lblTransactionType, gbc_lblTransactionType);
-
-        String[] transactionTypeData = { "income", "expense" };
-        comboBoxTransactionType = new JComboBox<>(transactionTypeData);
-        GridBagConstraints gbc_comboBoxCategory = new GridBagConstraints();
-        gbc_comboBoxCategory.insets = new Insets(0, 0, 5, 5);
-        gbc_comboBoxCategory.fill = GridBagConstraints.HORIZONTAL;
-        gbc_comboBoxCategory.gridx = 1;
-        gbc_comboBoxCategory.gridy = 3;
-        contentPane.add(comboBoxTransactionType, gbc_comboBoxCategory);
-
-        JLabel lblBudget = new JLabel("Budget");
-        GridBagConstraints gbc_lblBudget = new GridBagConstraints();
-        gbc_lblBudget.anchor = GridBagConstraints.WEST;
-        gbc_lblBudget.insets = new Insets(0, 0, 5, 5);
-        gbc_lblBudget.gridx = 0;
-        gbc_lblBudget.gridy = 4;
-        contentPane.add(lblBudget, gbc_lblBudget);
-
-        textFieldBudget = new JTextField();
-        GridBagConstraints gbc_textFieldBudget = new GridBagConstraints();
-        gbc_textFieldBudget.insets = new Insets(0, 0, 5, 5);
-        gbc_textFieldBudget.fill = GridBagConstraints.HORIZONTAL;
-        gbc_textFieldBudget.gridx = 1;
-        gbc_textFieldBudget.gridy = 4;
-        contentPane.add(textFieldBudget, gbc_textFieldBudget);
-        textFieldBudget.setColumns(10);
-
-        btnAdd = new JButton("Add");
-        btnAdd.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                String name = Integer.toString(comboBoxTransactionType.getSelectedIndex());
-                textFieldTitle.setText(name);
-            }
-        });
-
-        GridBagConstraints gbc_btnAdd = new GridBagConstraints();
-        gbc_btnAdd.insets = new Insets(0, 0, 5, 5);
-        gbc_btnAdd.gridx = 0;
-        gbc_btnAdd.gridy = 8;
-        contentPane.add(btnAdd, gbc_btnAdd);
+        jTextId.setText("");
+        jTextTitle.setText("");
+        jComboBoxTransactionType.setSelectedIndex(0);
+        jTextFieldBudget.setText("");
     }
 
 }
