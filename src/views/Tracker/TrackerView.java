@@ -1,23 +1,15 @@
 package views.Tracker;
 
-import java.util.ArrayList;
-
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.WindowConstants;
-import javax.swing.table.DefaultTableModel;
 
-import controller.Tracker.TrackerDataGet;
-import controller.Tracker.TrackerDataManager;
-import models.Tracker.TrackerData;
 import views.MainView;
 
 public class TrackerView extends JFrame {
     // Variables declaration - do not modify
     private JScrollPane jScrollPaneTracker;
     private JTrackerTable jTrackerTable;
-
     // End of variables declaration
 
     public TrackerView() {
