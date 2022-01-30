@@ -2,12 +2,12 @@ package models.Tracker;
 
 import models.Category.Category;
 
-public class CategoryTrackerData {
+public class TrackerData {
 
     private Category category;
     private double amount;
 
-    public CategoryTrackerData(Category category, double amount) {
+    public TrackerData(Category category, double amount) {
         this.category = category;
         this.amount = amount;
     }
