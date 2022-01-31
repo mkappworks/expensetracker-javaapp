@@ -97,6 +97,10 @@ public class TransactionTableModel extends AbstractTableModel {
         return returnValue;
     }
 
+    public List<Transaction> getTransactionList() {
+        return this.listTransaction;
+    }
+
     boolean[] canEdit = new boolean[] {
             false, true, true, true, true, true, true
     };

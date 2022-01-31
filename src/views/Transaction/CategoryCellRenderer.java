@@ -1,4 +1,4 @@
-package views.common;
+package views.Transaction;
 
 import java.awt.Component;
 
