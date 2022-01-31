@@ -224,6 +224,8 @@ public class CategoryView extends JFrame {
         jTextTitle.setText("");
         jComboBoxTransactionType.setSelectedIndex(0);
         jTextFieldBudget.setText("");
+
+        JOptionPane.showMessageDialog(null, "Recorde Added");
     }
 
 }

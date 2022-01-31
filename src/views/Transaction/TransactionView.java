@@ -18,8 +18,8 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle;
 import javax.swing.WindowConstants;
 import javax.swing.border.Border;
+import javax.swing.JComboBox;
 
-import controller.Category.CategoryRepoAdd;
 import controller.Category.CategoryRepoGet;
 import controller.Category.CategoryRepoManager;
 import controller.Transaction.TransactionRepoAdd;
@@ -29,15 +29,14 @@ import models.Transaction.Transaction;
 import models.Transaction.TransactionList;
 import utils.TypeCheck;
 
-import javax.swing.JComboBox;
-
 import views.MainView;
 
 public class TransactionView extends JFrame {
 
         // Variables declaration - do not modify
         private JButton jButtonAddNew;
-        private JButton jButtonSaveAmend;
+        private JButton jButtonSaveEdit;
+        private JButton jButtonDelete;
         private JComboBox<Category> jComboBoxCategory;
         private JComboBox<String> jComboBoxRecurringType;
         private JLabel jLabelAmount;
@@ -86,7 +85,8 @@ public class TransactionView extends JFrame {
                 jLabelAmount = new JLabel();
                 jTextFieldAmount = new JTextField();
                 jButtonAddNew = new JButton();
-                jButtonSaveAmend = new JButton();
+                jButtonSaveEdit = new JButton();
+                jButtonDelete = new JButton();
                 jTransactionTable = new JTransactionTable();
                 jScrollPaneTransaction = jTransactionTable.getScrollPane();
 
@@ -103,13 +103,7 @@ public class TransactionView extends JFrame {
 
                 jLabelId.setText("id");
 
-                CategoryRepoManager categoryRepoGet = new CategoryRepoGet();
-                categoryRepoGet.query();
-                ArrayList<Category> categoryArray = categoryRepoGet.getCategoryList().getList();
-
-                for (Category category : categoryArray) {
-                        jComboBoxCategory.addItem(category);
-                }
+                jComboBoxCategoryAddItem();
 
                 jLabelStartDate.setText("Start Date");
 
@@ -138,10 +132,17 @@ public class TransactionView extends JFrame {
 
                 jLabelAmount.setText("Amount");
 
-                jButtonSaveAmend.setText("Save Amend");
-                jButtonSaveAmend.addActionListener(new java.awt.event.ActionListener() {
+                jButtonSaveEdit.setText("Save Edit");
+                jButtonSaveEdit.addActionListener(new java.awt.event.ActionListener() {
                         public void actionPerformed(java.awt.event.ActionEvent evt) {
-                                jButtonSaveAmendActionPerformed(evt);
+                                jButtonSaveEditActionPerformed(evt);
+                        }
+                });
+
+                jButtonDelete.setText("Delete Transaction");
+                jButtonDelete.addActionListener(new java.awt.event.ActionListener() {
+                        public void actionPerformed(java.awt.event.ActionEvent evt) {
+                                jButtonDeleteActionPerformed(evt);
                         }
                 });
 
@@ -237,10 +238,16 @@ public class TransactionView extends JFrame {
                                                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED,
                                                                                 GroupLayout.DEFAULT_SIZE,
                                                                                 Short.MAX_VALUE)
-                                                                .addComponent(jButtonSaveAmend,
+                                                                .addComponent(jButtonSaveEdit,
                                                                                 GroupLayout.PREFERRED_SIZE, 120,
                                                                                 GroupLayout.PREFERRED_SIZE)
-                                                                .addGap(223, 223, 223)));
+                                                                .addGap(110, 110, 110)
+                                                                .addComponent(jButtonDelete,
+                                                                                javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                                                150,
+                                                                                javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                .addGap(116, 116, 116)));
+
                 layout.setVerticalGroup(
                                 layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                                                 .addGroup(layout.createSequentialGroup()
@@ -328,7 +335,11 @@ public class TransactionView extends JFrame {
                                                                                                 GroupLayout.PREFERRED_SIZE,
                                                                                                 50,
                                                                                                 GroupLayout.PREFERRED_SIZE)
-                                                                                .addComponent(jButtonSaveAmend,
+                                                                                .addComponent(jButtonDelete,
+                                                                                                javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                                                                50,
+                                                                                                javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                .addComponent(jButtonSaveEdit,
                                                                                                 GroupLayout.PREFERRED_SIZE,
                                                                                                 50,
                                                                                                 GroupLayout.PREFERRED_SIZE))
@@ -428,10 +439,16 @@ public class TransactionView extends JFrame {
                 jTextFieldRecurringAmount.setText("0");
                 jTextFieldAmount.setText("");
 
+                JOptionPane.showMessageDialog(null, "Record Added");
+
         }
 
-        private void jButtonSaveAmendActionPerformed(java.awt.event.ActionEvent evt) {
+        private void jButtonSaveEditActionPerformed(java.awt.event.ActionEvent evt) {
+                jTransactionTable.saveEditTransactionRecords();
+        }
 
+        private void jButtonDeleteActionPerformed(java.awt.event.ActionEvent evt) {
+                jTransactionTable.deleteTransactionRecords();
         }
 
         private void jComboBoxRecurringTypeItemStateChanged(java.awt.event.ItemEvent evt) {
@@ -444,6 +461,16 @@ public class TransactionView extends JFrame {
                         jTextFieldRecurringAmount.setText("1");
                 }
 
+        }
+
+        private void jComboBoxCategoryAddItem() {
+                CategoryRepoManager categoryRepoGet = new CategoryRepoGet();
+                categoryRepoGet.query();
+                ArrayList<Category> categoryArray = categoryRepoGet.getCategoryList().getList();
+
+                for (Category category : categoryArray) {
+                        jComboBoxCategory.addItem(category);
+                }
         }
 
 }
