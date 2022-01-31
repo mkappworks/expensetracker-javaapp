@@ -4,9 +4,8 @@ import java.util.ArrayList;
 
 import controller.Category.CategoryRepoGet;
 import controller.Category.CategoryRepoManager;
-import controller.Recurring.DailyRecurring;
-import controller.Recurring.MonthlyRecurring;
-import controller.Recurring.NoRecurring;
+import controller.Recurring.AbstractFactory;
+import controller.Recurring.RecurringFactory;
 import controller.Recurring.TransactionRecurringManager;
 import controller.Transaction.TransactionRepoGet;
 import controller.Transaction.TransactionRepoManager;
@@ -26,36 +25,17 @@ public class TrackerDataGet extends TrackerDataManager {
         transactionRepoGet.query();
         ArrayList<Transaction> transactionList = transactionRepoGet.getTransactionList().getList();
 
-        ArrayList<Transaction> noRecurringTransactionList = new ArrayList<Transaction>();
-        ArrayList<Transaction> dailyRecurringTransactionList = new ArrayList<Transaction>();
-        ArrayList<Transaction> montlyRecurringTransactionList = new ArrayList<Transaction>();
+        AbstractFactory recurringFactory = new RecurringFactory();
+        ArrayList<TransactionEntry> combinedTransactionEntry = new ArrayList<TransactionEntry>();
 
         for (Transaction transaction : transactionList) {
-            if (transaction.getRecurringType().equals("daily")) {
-                dailyRecurringTransactionList.add(transaction);
-            } else if (transaction.getRecurringType().equals("monthly")) {
-                montlyRecurringTransactionList.add(transaction);
-            } else {
-                noRecurringTransactionList.add(transaction);
-            }
+            TransactionRecurringManager manager = recurringFactory
+                    .getManager(transaction.getRecurringType());
+            ArrayList<Transaction> listTransaction = new ArrayList<Transaction>();
+            listTransaction.add(transaction);
+            TransactionEntryList transactionEntryList = manager.getRecurringList(new TransactionList(listTransaction));
+            combinedTransactionEntry.addAll(transactionEntryList.getList());
         }
-
-        TransactionRecurringManager noRecurringManager = new NoRecurring();
-        TransactionEntryList noRecurringTransactionEntryList = noRecurringManager
-                .getRecurringList(new TransactionList(noRecurringTransactionList));
-
-        TransactionRecurringManager dailyRecurringManager = new DailyRecurring();
-        TransactionEntryList dailyRecurringTransactionEntryList = dailyRecurringManager
-                .getRecurringList(new TransactionList(dailyRecurringTransactionList));
-
-        TransactionRecurringManager montlyRecurringManager = new MonthlyRecurring();
-        TransactionEntryList montlyRecurringTransactionEntryList = montlyRecurringManager
-                .getRecurringList(new TransactionList(montlyRecurringTransactionList));
-
-        ArrayList<TransactionEntry> combinedTransactionEntry = new ArrayList<TransactionEntry>();
-        combinedTransactionEntry.addAll(noRecurringTransactionEntryList.getList());
-        combinedTransactionEntry.addAll(dailyRecurringTransactionEntryList.getList());
-        combinedTransactionEntry.addAll(montlyRecurringTransactionEntryList.getList());
 
         TransactionEntryList combinedTransactionEntryList = new TransactionEntryList(combinedTransactionEntry);
 
