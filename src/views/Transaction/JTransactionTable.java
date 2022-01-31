@@ -87,7 +87,7 @@ public class JTransactionTable extends JTable {
 
     public void saveEditTransactionRecords() {
 
-        ArrayList<Transaction> listTransaction = (ArrayList) tableModel.getTransactionList();
+        ArrayList<Transaction> listTransaction = new ArrayList<Transaction>(tableModel.getTransactionList());
 
         TransactionRepoManager transactionRepoAmend = new TransactionRepoAmend();
         transactionRepoAmend.setTransactionList(new TransactionList(listTransaction));
@@ -101,7 +101,7 @@ public class JTransactionTable extends JTable {
         int selectRow = table.getSelectedRow();
 
         if (selectRow != -1) {
-            ArrayList<Transaction> listTransaction = (ArrayList) tableModel.getTransactionList();
+            ArrayList<Transaction> listTransaction = new ArrayList<Transaction>(tableModel.getTransactionList());
             listTransaction.remove(selectRow);
 
             TransactionRepoManager transactionRepoDelete = new TransactionRepoAmend();
